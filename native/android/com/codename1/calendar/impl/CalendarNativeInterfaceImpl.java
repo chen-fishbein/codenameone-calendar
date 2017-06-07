@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CalendarContract;
+import android.Manifest;
+import com.codename1.impl.android.AndroidNativeUtil;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class CalendarNativeInterfaceImpl {
@@ -12,6 +14,11 @@ public class CalendarNativeInterfaceImpl {
     * @return currently assumes being used on >= ICS
     */
    public boolean hasPermissions() {
+      if ( !AndroidNativeUtil.checkForPermission(Manifest.permission.READ_CALENDAR, "Allow reading device calendar")) {
+          return false;
+      } else
+          if (!AndroidNativeUtil.checkForPermission(Manifest.permission.WRITE_CALENDAR, "Allow writing device calendar"))
+              return false;       
       return true;
    }
 
