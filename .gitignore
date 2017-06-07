@@ -49,3 +49,4 @@ CodeNameOneBuildClient.jar
 JavaSE.jar
 /build/
 /dist/
+lib/CLDC11.jar
