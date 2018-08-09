@@ -33,6 +33,7 @@ import java.util.Vector;
 import com.codename1.calendar.impl.CalendarNativeInterface;
 import com.codename1.io.CharArrayReader;
 import com.codename1.system.NativeLookup;
+import com.codename1.ui.Display;
 import com.codename1.xml.Element;
 import com.codename1.xml.XMLParser;
 
@@ -63,6 +64,11 @@ public final class DeviceCalendar {
 			if(null != impl && impl.isSupported()){
 				INSTANCE = new DeviceCalendar(impl);
 			}
+            if(Display.getInstance().isSimulator()) {
+                if(Display.getInstance().getProjectBuildHints().get("ios.NSCalendarsUsageDescription") == null) {
+                    Display.getInstance().setProjectBuildHint("ios.NSCalendarsUsageDescription", "The application requires access to the device calendar");
+                }
+            }
 		}
 		return INSTANCE;
 	}
