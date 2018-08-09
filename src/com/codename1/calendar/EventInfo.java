@@ -34,13 +34,49 @@ public class EventInfo {
       if (element == null)
          throw new IllegalArgumentException("element cannot be null");
 
-      id             = element.getFirstChildByTagName("id").         getChildAt(0).getText();
-      title          = element.getFirstChildByTagName("title").      getChildAt(0).getText();
-      description    = element.getFirstChildByTagName("description").getChildAt(0).getText();
-      location       = element.getFirstChildByTagName("location").   getChildAt(0).getText();
-      startTime      = new Date(Long.parseLong(element.getFirstChildByTagName("startTimeStamp").getChildAt(0).getText()));
-      endTime        = new Date(Long.parseLong(element.getFirstChildByTagName("endTimeStamp").  getChildAt(0).getText()));
-      allDayEvent    = "true".equals (element.getFirstChildByTagName("allDayEvent").   getChildAt(0).getText());
+      id = element.getFirstChildByTagName("id").getChildAt(0).getText();
+      
+      Element titleE = element.getFirstChildByTagName("title");
+      if(titleE.isEmpty()) {
+          title = "";
+      } else {
+          title = titleE.getChildAt(0).getText();
+      }
+      
+      Element descriptionE = element.getFirstChildByTagName("description");
+      if(descriptionE.isEmpty()) {
+        description = "";  
+      } else {
+        description = descriptionE.getChildAt(0).getText();
+      }
+      
+      Element locationE = element.getFirstChildByTagName("location");
+      if(locationE.isEmpty()) {
+          location = "";
+      } else {
+          location = locationE.getChildAt(0).getText();
+      }
+      
+      Element startTimeE = element.getFirstChildByTagName("startTimeStamp");
+      if(startTimeE.isEmpty()) {
+          startTime = null;
+      } else {
+          startTime  = new Date(Long.parseLong(startTimeE.getChildAt(0).getText()));
+      }
+      
+      Element endTimeE = element.getFirstChildByTagName("endTimeStamp");
+      if(endTimeE.isEmpty()) {
+          endTime = null;
+      } else {
+          endTime = new Date(Long.parseLong(endTimeE.getChildAt(0).getText()));
+      }
+      
+      Element allDayEventE = element.getFirstChildByTagName("allDayEvent");
+      if(allDayEventE.isEmpty()) {
+          allDayEvent = false;
+      } else {
+          allDayEvent    = "true".equals (allDayEventE.getChildAt(0).getText());
+      }
 
       Element rems = element.getFirstChildByTagName("reminders");
 
@@ -49,11 +85,13 @@ public class EventInfo {
 
          reminders = new int[seconds != null ? seconds.size() : 0];
 
-         for (int i = 0; i < reminders.length; i++) 
+         for (int i = 0; i < reminders.length; i++)  {
             reminders[i] = Integer.parseInt(seconds.elementAt(i).getChildAt(0).getText());            
+         }
       }
-      else
+      else {
          reminders = new int[0];
+      }
    }
 
    public String getID() {
